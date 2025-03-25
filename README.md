@@ -10,6 +10,7 @@ This guide walks you through the steps to set up Ansible on your WSL (Ubuntu) ma
 
 ## Steps
 ### Step 1: Install Ansible on WSL (Ubuntu)
+If using any other Linux Distribution get the appropriate installaion command from google
 Open your WSL terminal (Ubuntu) and update the package list:
 ```bash
 sudo apt update```
