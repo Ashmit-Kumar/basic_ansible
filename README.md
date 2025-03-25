@@ -24,4 +24,44 @@ bash
 Copy
 ansible --version
 This should return the installed version of Ansible.
+```
+### Step 2: Configure SSH Access to EC2 Servers
+Ensure you can SSH into your EC2 instances using key-based authentication:
+```bash
+ssh -i /path/to/your/key.pem ubuntu@your-ec2-ip
+```
 
+### Step 3: Set Up Ansible Inventory
+Create an inventory file to define the EC2 hosts:
+
+```bash
+echo "[ec2_servers]
+server1 ansible_host=your-ec2-ip-1 ansible_user=ubuntu ansible_ssh_private_key_file=/path/to/your/key.pem
+server2 ansible_host=your-ec2-ip-2 ansible_user=ubuntu ansible_ssh_private_key_file=/path/to/your/key.pem" > inventory.ini
+```
+
+### Step 4: Test Connectivity
+Run the following command to test connectivity:
+
+```bash
+ansible -i inventory.ini ec2_servers -m ping
+```
+
+If successful, you should see a "pong" response from each server.
+
+### Step 5: Run an Ansible Playbook
+Create a simple playbook to install Nginx on the EC2 servers:
+
+```bash
+- name: Install Nginx on EC2 servers
+  hosts: ec2_servers
+  become: yes
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+```
+Save this file as install_nginx.yml and execute it:
+
+ansible-playbook -i inventory.ini install_nginx.yml
